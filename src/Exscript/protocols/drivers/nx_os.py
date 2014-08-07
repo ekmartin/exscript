@@ -20,7 +20,8 @@ from Exscript.protocols.drivers.driver import Driver
 
 _user_re     = [re.compile(r'[\r\n]Username: $')]
 _password_re = [re.compile(r'[\r\n]Password: $')]
-_prompt_re   = [re.compile(r'[\r\n]pod[\d]-(bs|as)[\d]-[\d](?:\([^\)]+\))?#$')]
+_prompt_re   = [re.compile(r'[\r\n]pod[\d]-(bs|as)[\d]-[\d](?:\([^\)]+\))?# $')]
+_nx_os = re.compile(r'[\r\n]Cisco Nexus Operating System \(NX-OS\) Software')
 
 class NXOSDriver(Driver):
     def __init__(self):
@@ -30,16 +31,15 @@ class NXOSDriver(Driver):
         self.prompt_re   = _prompt_re
 
     def check_head_for_os(self, string):
-        if _user_re[0].search(string):
-            return 30
+        if _nx_os.search(string):
+            return 99
         return 0
+
 
     def check_response_for_os(self, string):
         if _prompt_re[0].search(string):
-            return 80
+            return 85
         return 0
 
     def init_terminal(self, conn):
-        #conn.execute('terminal exec prompt no-timestamp')
         conn.execute('terminal len 0')
-        #conn.execute('terminal width 0')
