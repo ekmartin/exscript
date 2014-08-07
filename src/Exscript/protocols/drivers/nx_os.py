@@ -18,16 +18,20 @@ A driver for Cisco NX OS.
 import re
 from Exscript.protocols.drivers.driver import Driver
 
+_user_re     = [re.compile(r'[\r\n]Username: $')]
 _password_re = [re.compile(r'[\r\n]Password: $')]
-_prompt_re   = [re.compile(r'[\r\n](.)#$')]
+_prompt_re   = [re.compile(r'[\r\n]pod[\d]-(bs|as)[\d]-[\d](?:\([^\)]+\))?#$')]
 
 class NXOSDriver(Driver):
     def __init__(self):
         Driver.__init__(self, 'nx_os')
+        self.user_re = _user_re
         self.password_re = _password_re
         self.prompt_re   = _prompt_re
 
     def check_response_for_os(self, string):
+        if _prompt_re[0].search(string):
+            return 80
         return 0
 
     def init_terminal(self, conn):
