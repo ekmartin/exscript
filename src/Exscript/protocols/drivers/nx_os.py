@@ -21,7 +21,7 @@ from Exscript.protocols.drivers.driver import Driver
 _user_re     = [re.compile(r'[\r\n]Username: $')]
 _password_re = [re.compile(r'[\r\n]Password: $')]
 _prompt_re   = [re.compile(r'[\r\n]pod[\d]-(bs|as)[\d]-[\d](?:\([^\)]+\))?# $')]
-_nx_os = re.compile(r'[\r\n]Cisco Nexus Operating System \(NX-OS\) Software')
+_nx_os = re.compile(r'Cisco Nexus Operating System \(NX-OS\) Software')
 
 class NXOSDriver(Driver):
     def __init__(self):
