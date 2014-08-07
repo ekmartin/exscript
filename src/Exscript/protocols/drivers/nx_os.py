@@ -29,6 +29,11 @@ class NXOSDriver(Driver):
         self.password_re = _password_re
         self.prompt_re   = _prompt_re
 
+    def check_head_for_os(self, string):
+        if _user_re[0].search(string):
+            return 30
+        return 0
+
     def check_response_for_os(self, string):
         if _prompt_re[0].search(string):
             return 80
